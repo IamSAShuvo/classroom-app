@@ -16,6 +16,8 @@ migrate_working_dir/
 *.iws
 .idea/
 
+# vscode related
+.vscode/
 
 .metadata/
 
