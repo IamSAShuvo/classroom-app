@@ -14,8 +14,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Synergy Classroom',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 98, 35, 206)),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF5F5F5)),
         useMaterial3: true,
       ),
       home: const HomeScreen(),
