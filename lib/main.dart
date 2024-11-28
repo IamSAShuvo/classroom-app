@@ -1,3 +1,4 @@
+import 'package:classroom_app/widgets/HomeScreen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,32 +11,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Classroom',
+      debugShowCheckedModeBanner: false,
+      title: 'Synergy Classroom',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 98, 35, 206)),
         useMaterial3: true,
       ),
-      home: Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                'assets/images/overviewPage_image.png',
-              ),
-              const Text(
-                "Test text",
-                style: TextStyle(
-                  fontSize: 56,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.w400,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      home: const HomeScreen(),
     );
   }
 }
