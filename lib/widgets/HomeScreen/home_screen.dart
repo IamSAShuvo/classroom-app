@@ -7,10 +7,12 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: AppColors.white,
       body: Padding(
-        padding: const EdgeInsets.all(28.0),
+        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -18,28 +20,31 @@ class HomeScreen extends StatelessWidget {
             Center(
               child: Image.asset(
                 'assets/images/overviewPage_image.png',
+                width: screenWidth * 0.6,
+                height: screenHeight * 0.3,
+                fit: BoxFit.contain,
               ),
             ),
             const SizedBox(
               height: 30,
             ),
-            const Text(
+            Text(
               'Make Professional\nYour study plan',
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: AppColors.homeScreenHeadingColor,
-                  fontSize: 22,
+                  fontSize: screenWidth * 0.06,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Poppins'),
             ),
             const SizedBox(
               height: 10,
             ),
-            const Text(
+            Text(
               'Study according to the\nstudy plan, make study\nmore motivated',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 16,
+                fontSize: screenWidth * 0.04,
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.normal,
                 color: AppColors.classroomSecondaryColor,
@@ -51,16 +56,26 @@ class HomeScreen extends StatelessWidget {
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomButton(
-                  buttonText: 'Sign Up',
-                  buttonBgColor: AppColors.btnSecondaryColor,
-                  buttonTextColor: AppColors.white,
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 10.0),
+                    child: CustomButton(
+                      buttonText: 'Sign Up',
+                      buttonBgColor: AppColors.btnSecondaryColor,
+                      buttonTextColor: AppColors.white,
+                    ),
+                  ),
                 ),
-                CustomButton(
-                  buttonText: 'Log in',
-                  buttonBgColor: AppColors.white,
-                  buttonTextColor: AppColors.btnSecondaryColor,
-                  buttonBorderColor: AppColors.btnSecondaryColor,
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 10.0),
+                    child: CustomButton(
+                      buttonText: 'Log in',
+                      buttonBgColor: AppColors.white,
+                      buttonTextColor: AppColors.btnSecondaryColor,
+                      buttonBorderColor: AppColors.btnSecondaryColor,
+                    ),
+                  ),
                 ),
               ],
             ),

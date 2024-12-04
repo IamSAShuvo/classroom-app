@@ -17,16 +17,16 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return SizedBox(
-      // width: double.infinity,
       height: 56,
-      width: 180,
+      width: screenWidth * 0.4,
       child: ElevatedButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24,
-            vertical: 10,
+          padding: EdgeInsets.symmetric(
+            horizontal: screenWidth * 0.08,
+            vertical: 14,
           ),
           backgroundColor: buttonBgColor,
           side: buttonBorderColor == null
@@ -40,7 +40,7 @@ class CustomButton extends StatelessWidget {
           buttonText,
           style: TextStyle(
             color: buttonTextColor ?? AppColors.white,
-            fontSize: 14,
+            fontSize: screenWidth * 0.04,
             fontFamily: 'Poppins',
             fontWeight: FontWeight.bold,
           ),
