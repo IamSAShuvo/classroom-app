@@ -1,5 +1,6 @@
-import 'package:classroom_app/widgets/HomeScreen/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:classroom_app/styles/color/colors.dart';
+import 'package:classroom_app/widgets/HomeScreen/home_screen.dart';
 
 void main() {
   runApp(const ClassroomApp());
@@ -14,7 +15,7 @@ class ClassroomApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Synergy Classroom',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFF5F5F5)),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.classroomColor),
         useMaterial3: true,
       ),
       home: const HomeScreen(),
