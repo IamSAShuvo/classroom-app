@@ -1,5 +1,6 @@
-import 'package:classroom_app/widgets/CustomButton/custom_button.dart';
 import 'package:flutter/material.dart';
+import 'package:classroom_app/styles/color/colors.dart';
+import 'package:classroom_app/widgets/CustomButton/custom_button.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -7,7 +8,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       body: Padding(
         padding: const EdgeInsets.all(28.0),
         child: Column(
@@ -26,7 +27,7 @@ class HomeScreen extends StatelessWidget {
               'Make Professional\nYour study plan',
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: Color(0xff1f1f39),
+                  color: AppColors.homeScreenHeadingColor,
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Poppins'),
@@ -41,7 +42,7 @@ class HomeScreen extends StatelessWidget {
                 fontSize: 16,
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.normal,
-                color: Color(0xff858597),
+                color: AppColors.classroomSecondaryColor,
               ),
             ),
             const SizedBox(
@@ -52,17 +53,17 @@ class HomeScreen extends StatelessWidget {
               children: [
                 CustomButton(
                   buttonText: 'Sign Up',
-                  buttonBgColor: Color(0xFF5177FF),
-                  buttonTextColor: Colors.white,
+                  buttonBgColor: AppColors.btnSecondaryColor,
+                  buttonTextColor: AppColors.white,
                 ),
                 CustomButton(
                   buttonText: 'Log in',
-                  buttonBgColor: Colors.white,
-                  buttonTextColor: Color(0xFF5177FF),
-                  buttonBorderColor: Colors.blue,
+                  buttonBgColor: AppColors.white,
+                  buttonTextColor: AppColors.btnSecondaryColor,
+                  buttonBorderColor: AppColors.btnSecondaryColor,
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
