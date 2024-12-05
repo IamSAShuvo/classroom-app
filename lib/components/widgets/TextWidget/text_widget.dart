@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget customText({
+Widget textWidget({
   required String text,
   required double fontSize,
   required Color color,

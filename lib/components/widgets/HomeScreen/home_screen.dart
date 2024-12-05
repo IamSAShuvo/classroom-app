@@ -1,3 +1,4 @@
+import 'package:classroom_app/components/widgets/TextWidget/text_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:classroom_app/components/styles/color/colors.dart';
 import 'package:classroom_app/components/widgets/CustomButton/custom_button.dart';
@@ -36,27 +37,29 @@ class HomeScreen extends StatelessWidget {
               SizedBox(
                 height: screenHeight * 0.03,
               ),
-              Text(
-                'Make Professional\nYour study plan',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: AppColors.homeScreenHeadingColor,
-                    fontSize: screenWidth * 0.06,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Poppins'),
+              // Text(
+              //   'Make Professional\nYour study plan',
+              //   textAlign: TextAlign.center,
+              //   style: TextStyle(
+              //       color: AppColors.homeScreenHeadingColor,
+              //       fontSize: screenWidth * 0.06,
+              //       fontWeight: FontWeight.bold,
+              //       fontFamily: 'Poppins'),
+              // ),
+              textWidget(
+                text: 'Make Professional\nYour study plan',
+                fontSize: screenWidth * 0.06,
+                color: AppColors.homeScreenHeadingColor,
+                fontWeight: FontWeight.bold,
               ),
               SizedBox(
                 height: screenHeight * 0.01,
               ),
-              Text(
-                'Study according to the\nstudy plan, make study\nmore motivated',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: screenWidth * 0.04,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.normal,
-                  color: AppColors.classroomSecondaryColor,
-                ),
+              textWidget(
+                text:
+                    'Study according to the\nstudy plan, make study\nmore motivated',
+                fontSize: screenWidth * 0.04,
+                color: AppColors.classroomSecondaryColor,
               ),
               SizedBox(
                 height: screenHeight * 0.1875,
