@@ -19,32 +19,29 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return SizedBox(
-      height: 56,
-      child: ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.symmetric(
-            horizontal: screenWidth * 0.08,
-            vertical: 14,
-          ),
-          backgroundColor: buttonBgColor,
-          side: buttonBorderColor != null
-              ? BorderSide(color: buttonBorderColor!)
-              : null,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5),
-          ),
+    return ElevatedButton(
+      onPressed: () {},
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.symmetric(
+          horizontal: screenWidth * 0.08,
+          vertical: 14,
         ),
-        child: Text(
-          buttonText,
-          style: TextStyle(
-            color: buttonTextColor ?? AppColors.white,
-            // fontSize: screenWidth * 0.04,
-            fontSize: MediaQuery.textScalerOf(context).scale(16.0),
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.bold,
-          ),
+        backgroundColor: buttonBgColor,
+        side: buttonBorderColor != null
+            ? BorderSide(color: buttonBorderColor!)
+            : null,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+      ),
+      child: Text(
+        buttonText,
+        style: TextStyle(
+          color: buttonTextColor ?? AppColors.white,
+          // fontSize: screenWidth * 0.04,
+          fontSize: MediaQuery.textScalerOf(context).scale(16.0),
+          fontFamily: 'Poppins',
+          fontWeight: FontWeight.bold,
         ),
       ),
     );
