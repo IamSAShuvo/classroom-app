@@ -12,6 +12,7 @@ class HomeScreen extends StatelessWidget {
     MediaQueryData mediaQuery = MediaQuery.of(context);
     double screenWidth = mediaQuery.size.width;
     double screenHeight = mediaQuery.size.height;
+
     return AnnotatedRegion(
       value: const SystemUiOverlayStyle(
           statusBarIconBrightness: Brightness.dark,
@@ -32,8 +33,8 @@ class HomeScreen extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
               ),
-              const SizedBox(
-                height: 30,
+              SizedBox(
+                height: screenHeight * 0.03,
               ),
               Text(
                 'Make Professional\nYour study plan',
@@ -44,8 +45,8 @@ class HomeScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     fontFamily: 'Poppins'),
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: screenHeight * 0.01,
               ),
               Text(
                 'Study according to the\nstudy plan, make study\nmore motivated',
@@ -57,8 +58,8 @@ class HomeScreen extends StatelessWidget {
                   color: AppColors.classroomSecondaryColor,
                 ),
               ),
-              const SizedBox(
-                height: 150,
+              SizedBox(
+                height: screenHeight * 0.1875,
               ),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
