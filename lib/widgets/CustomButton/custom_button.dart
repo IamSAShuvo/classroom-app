@@ -18,9 +18,9 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+
     return SizedBox(
       height: 56,
-      width: screenWidth * 0.4,
       child: ElevatedButton(
         onPressed: () {},
         style: ElevatedButton.styleFrom(
@@ -29,9 +29,9 @@ class CustomButton extends StatelessWidget {
             vertical: 14,
           ),
           backgroundColor: buttonBgColor,
-          side: buttonBorderColor == null
-              ? null
-              : BorderSide(color: buttonBorderColor!),
+          side: buttonBorderColor != null
+              ? BorderSide(color: buttonBorderColor!)
+              : null,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
           ),
@@ -40,7 +40,8 @@ class CustomButton extends StatelessWidget {
           buttonText,
           style: TextStyle(
             color: buttonTextColor ?? AppColors.white,
-            fontSize: screenWidth * 0.04,
+            // fontSize: screenWidth * 0.04,
+            fontSize: MediaQuery.textScalerOf(context).scale(16.0),
             fontFamily: 'Poppins',
             fontWeight: FontWeight.bold,
           ),
