@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:classroom_app/styles/color/colors.dart';
 import 'package:classroom_app/widgets/CustomButton/custom_button.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -23,8 +24,8 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Center(
-                child: Image.asset(
-                  'assets/images/overviewPage_image.png',
+                child: SvgPicture.asset(
+                  'assets/images/welcomeScreenImage.svg',
                   width: screenWidth * 0.6,
                   height: screenHeight * 0.3,
                   fit: BoxFit.contain,
