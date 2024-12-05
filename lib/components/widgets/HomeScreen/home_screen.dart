@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:classroom_app/styles/color/colors.dart';
-import 'package:classroom_app/widgets/CustomButton/custom_button.dart';
+import 'package:classroom_app/components/styles/color/colors.dart';
+import 'package:classroom_app/components/widgets/CustomButton/custom_button.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 

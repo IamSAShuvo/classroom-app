@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:classroom_app/styles/color/colors.dart';
-import 'package:classroom_app/widgets/HomeScreen/home_screen.dart';
+import 'package:classroom_app/components/styles/color/colors.dart';
+import 'package:classroom_app/components/widgets/HomeScreen/home_screen.dart';
 
 void main() {
   runApp(const ClassroomApp());
