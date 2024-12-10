@@ -37,15 +37,6 @@ class HomeScreen extends StatelessWidget {
               SizedBox(
                 height: screenHeight * 0.03,
               ),
-              // Text(
-              //   'Make Professional\nYour study plan',
-              //   textAlign: TextAlign.center,
-              //   style: TextStyle(
-              //       color: AppColors.homeScreenHeadingColor,
-              //       fontSize: screenWidth * 0.06,
-              //       fontWeight: FontWeight.bold,
-              //       fontFamily: 'Poppins'),
-              // ),
               textWidget(
                 text: 'Make Professional\nYour study plan',
                 fontSize: screenWidth * 0.06,
