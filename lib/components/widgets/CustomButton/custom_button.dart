@@ -40,7 +40,6 @@ class CustomButton extends StatelessWidget {
         buttonText,
         style: TextStyle(
           color: buttonTextColor ?? AppColors.white,
-          // fontSize: screenWidth * 0.04,
           fontSize: MediaQuery.textScalerOf(context).scale(16.0),
           fontFamily: 'Poppins',
           fontWeight: FontWeight.bold,
