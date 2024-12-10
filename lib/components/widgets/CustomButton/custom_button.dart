@@ -17,7 +17,9 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    const double defaultBorderRadius = 5;
 
     return ElevatedButton(
       onPressed: () {},
@@ -31,7 +33,7 @@ class CustomButton extends StatelessWidget {
             ? BorderSide(color: buttonBorderColor!)
             : null,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(defaultBorderRadius),
         ),
       ),
       child: Text(
