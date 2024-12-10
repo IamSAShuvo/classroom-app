@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:classroom_app/components/styles/color/colors.dart';
+import 'package:classroom_app/components/widgets/HomeScreen/home_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ClassroomApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ClassroomApp extends StatelessWidget {
+  const ClassroomApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Synergy Classroom',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color.fromARGB(255, 98, 35, 206)),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.classroomColor),
         useMaterial3: true,
       ),
-      home: const Scaffold(),
+      home: const HomeScreen(),
     );
   }
 }
