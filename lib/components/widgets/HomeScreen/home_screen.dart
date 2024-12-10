@@ -1,9 +1,9 @@
-import 'package:classroom_app/components/widgets/TextWidget/text_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:classroom_app/components/styles/color/colors.dart';
-import 'package:classroom_app/components/widgets/CustomButton/custom_button.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:classroom_app/components/styles/color/colors.dart';
+import 'package:classroom_app/components/widgets/TextWidget/text_widget.dart';
+import 'package:classroom_app/components/widgets/CustomButton/custom_button.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
