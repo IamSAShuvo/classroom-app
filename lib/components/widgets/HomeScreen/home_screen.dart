@@ -13,6 +13,8 @@ class HomeScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final screenWidth = size.width;
     final screenHeight = size.height;
+    const String welcomeScreenImagePath =
+        'assets/images/welcomeScreenImage.svg';
 
     return AnnotatedRegion(
       value: const SystemUiOverlayStyle(
@@ -28,7 +30,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               Center(
                 child: SvgPicture.asset(
-                  'assets/images/welcomeScreenImage.svg',
+                  welcomeScreenImagePath,
                   width: screenWidth * 0.6,
                   height: screenHeight * 0.3,
                   fit: BoxFit.contain,
