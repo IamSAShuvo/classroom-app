@@ -10,9 +10,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
-    double screenWidth = mediaQuery.size.width;
-    double screenHeight = mediaQuery.size.height;
+    final size = MediaQuery.of(context).size;
+    final screenWidth = size.width;
+    final screenHeight = size.height;
 
     return AnnotatedRegion(
       value: const SystemUiOverlayStyle(
