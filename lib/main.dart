@@ -17,6 +17,7 @@ class ClassroomApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.classroomColor),
         useMaterial3: true,
+        fontFamily: 'Poppins',
       ),
       home: const HomeScreen(),
     );
