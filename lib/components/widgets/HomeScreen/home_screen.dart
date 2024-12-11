@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:classroom_app/components/utils/assets_path.dart';
 import 'package:classroom_app/components/styles/color/colors.dart';
 import 'package:classroom_app/components/widgets/TextWidget/text_widget.dart';
 import 'package:classroom_app/components/widgets/CustomButton/custom_button.dart';
@@ -13,8 +14,6 @@ class HomeScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final screenWidth = size.width;
     final screenHeight = size.height;
-    const String welcomeScreenImagePath =
-        'assets/images/welcomeScreenImage.svg';
 
     return AnnotatedRegion(
       value: const SystemUiOverlayStyle(
@@ -30,7 +29,7 @@ class HomeScreen extends StatelessWidget {
             children: [
               Center(
                 child: SvgPicture.asset(
-                  welcomeScreenImagePath,
+                  welcomeImage,
                   width: screenWidth * 0.6,
                   height: screenHeight * 0.3,
                   fit: BoxFit.contain,
