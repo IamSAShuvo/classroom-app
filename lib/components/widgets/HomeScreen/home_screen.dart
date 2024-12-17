@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
     return AnnotatedRegion(
       value: const SystemUiOverlayStyle(
           statusBarIconBrightness: Brightness.dark,
-          statusBarColor: Colors.black38),
+          statusBarColor: Colors.black26),
       child: Scaffold(
         backgroundColor: AppColors.white,
         body: Padding(
@@ -56,27 +56,33 @@ class HomeScreen extends StatelessWidget {
               SizedBox(
                 height: screenHeight * 0.1875,
               ),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.only(right: 10.0),
+                      padding: const EdgeInsets.only(right: 10.0),
                       child: CustomButton(
                         buttonText: 'Sign Up',
                         buttonBgColor: AppColors.btnSecondaryColor,
                         buttonTextColor: AppColors.white,
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/signup');
+                        },
                       ),
                     ),
                   ),
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.only(left: 10.0),
+                      padding: const EdgeInsets.only(left: 10.0),
                       child: CustomButton(
                         buttonText: 'Log in',
                         buttonBgColor: AppColors.white,
                         buttonTextColor: AppColors.btnSecondaryColor,
                         buttonBorderColor: AppColors.btnSecondaryColor,
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/login');
+                        },
                       ),
                     ),
                   ),
