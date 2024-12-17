@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:classroom_app/components/styles/color/colors.dart';
 import 'package:classroom_app/components/widgets/HomeScreen/home_screen.dart';
+import 'package:classroom_app/components/widgets/loginScreen/login_screen.dart';
+import 'package:classroom_app/components/widgets/SignUpScreen/sign_up_screen.dart';
 
 void main() {
   runApp(const ClassroomApp());
@@ -22,6 +24,8 @@ class ClassroomApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const HomeScreen(),
+        '/signup': (context) => const SignUpScreen(),
+        '/login': (context) => const LoginScreen(),
       },
       // home: const HomeScreen(),
     );
