@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 import 'package:classroom_app/components/styles/color/colors.dart';
 import 'package:classroom_app/components/widgets/CustomButton/custom_button.dart';
-import 'package:flutter/material.dart';
+import 'package:classroom_app/components/widgets/SignUpScreen/sign_up_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -95,13 +97,23 @@ class LoginScreen extends StatelessWidget {
                           TextSpan(
                             text: "Don't have an account? ",
                             style: TextStyle(fontSize: screenWidth * 0.035),
-                            children: const [
+                            children: [
                               TextSpan(
-                                text: 'Sign up',
-                                style: TextStyle(
+                                text: 'Sign Up',
+                                style: const TextStyle(
                                   color: AppColors.btnSecondaryColor,
                                   fontWeight: FontWeight.bold,
                                 ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const SignUpScreen(),
+                                      ),
+                                    );
+                                  },
                               ),
                             ],
                           ),

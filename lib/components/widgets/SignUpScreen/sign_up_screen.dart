@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 import '../CustomButton/custom_button.dart';
 import 'package:classroom_app/components/styles/color/colors.dart';
+import 'package:classroom_app/components/widgets/loginScreen/login_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -173,13 +175,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     TextSpan(
                       text: 'Already have an account? ',
                       style: TextStyle(fontSize: screenWidth * 0.035),
-                      children: const [
+                      children: [
                         TextSpan(
                           text: 'Log in',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: AppColors.btnSecondaryColor,
                             fontWeight: FontWeight.bold,
                           ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginScreen(),
+                                ),
+                              );
+                            },
                         ),
                       ],
                     ),
