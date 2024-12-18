@@ -9,7 +9,7 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -17,7 +17,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _isLoading = false;
 
-  // Function to handle login
   Future<void> _login() async {
     setState(() {
       _isLoading = true;
@@ -39,18 +38,14 @@ class _LoginScreenState extends State<LoginScreen> {
         final data = jsonDecode(response.body);
 
         if (data['success']) {
-          // If login is successful, you can save the tokens or navigate
           print('Login Successful: ${data['data']['accessToken']}');
-          // Handle navigation or token storage here
         } else {
-          // Handle error message
           print('Login Failed: ${data['message']}');
         }
       } else {
         throw Exception('Failed to log in');
       }
     } catch (e) {
-      // Handle any error during the API request
       print('Error: $e');
     } finally {
       setState(() {
@@ -146,9 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        onPressed: _isLoading
-                            ? null
-                            : _login, // Disable button during loading
+                        onPressed: _isLoading ? null : _login,
                         child: _isLoading
                             ? const CircularProgressIndicator() // Show loading indicator
                             : const Text(
@@ -171,7 +164,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 recognizer: TapGestureRecognizer()
                                   ..onTap = () {
-                                    // Navigate to sign up screen
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
