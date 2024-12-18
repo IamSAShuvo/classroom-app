@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'package:classroom_app/components/styles/color/colors.dart';
-import 'package:classroom_app/components/widgets/SignUpScreen/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:http/http.dart' as http;
+import 'package:classroom_app/components/styles/color/colors.dart';
+import 'package:classroom_app/components/widgets/SignUpScreen/sign_up_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -38,20 +38,49 @@ class _LoginScreenState extends State<LoginScreen> {
         final data = jsonDecode(response.body);
 
         if (data['success']) {
-          print('Login Successful: ${data['data']['accessToken']}');
+          _showDialog(
+            title: 'Login Successful',
+            message: data['message'] ?? 'Welcome!',
+          );
         } else {
-          print('Login Failed: ${data['message']}');
+          _showDialog(
+            title: 'Login Failed',
+            message: data['message'] ?? 'Invalid credentials.',
+          );
         }
       } else {
         throw Exception('Failed to log in');
       }
     } catch (e) {
-      print('Error: $e');
+      _showDialog(
+        title: 'Error',
+        message: 'An error occurred: $e',
+      );
     } finally {
       setState(() {
         _isLoading = false;
       });
     }
+  }
+
+  void _showDialog({required String title, required String message}) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -61,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final screenHeight = size.height;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       body: LayoutBuilder(
         builder: (context, constraints) {
           final isSmallScreen = constraints.maxHeight < 600;
@@ -87,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Text(
                   'Enter your details below & free log in',
                   style: TextStyle(
-                    color: Colors.grey,
+                    color: AppColors.classroomSecondaryColor,
                     fontSize: screenWidth * 0.045,
                   ),
                 ),
@@ -134,8 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           foregroundColor: AppColors.white,
-                          backgroundColor:
-                              AppColors.btnSecondaryColor, // Text color
+                          backgroundColor: AppColors.btnSecondaryColor,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -159,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               TextSpan(
                                 text: 'Sign Up',
                                 style: const TextStyle(
-                                  color: Colors.blue,
+                                  color: AppColors.btnSecondaryColor,
                                   fontWeight: FontWeight.bold,
                                 ),
                                 recognizer: TapGestureRecognizer()
