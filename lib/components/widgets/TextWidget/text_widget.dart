@@ -14,7 +14,6 @@ Widget textWidget({
       fontSize: fontSize,
       fontWeight: fontWeight,
       color: color,
-      fontFamily: 'Poppins',
     ),
   );
 }

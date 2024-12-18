@@ -8,12 +8,14 @@ class CustomButton extends StatelessWidget {
     required this.buttonBgColor,
     this.buttonTextColor,
     this.buttonBorderColor,
+    this.onPressed,
   });
 
   final String buttonText;
   final Color buttonBgColor;
   final Color? buttonTextColor;
   final Color? buttonBorderColor;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -22,17 +24,17 @@ class CustomButton extends StatelessWidget {
     const double defaultBorderRadius = 5;
 
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         padding: EdgeInsets.symmetric(
           horizontal: screenWidth * 0.08,
           vertical: 14,
         ),
         backgroundColor: buttonBgColor,
-        side: buttonBorderColor != null
-            ? BorderSide(color: buttonBorderColor!)
-            : null,
         shape: RoundedRectangleBorder(
+          side: buttonBorderColor != null
+              ? BorderSide(color: buttonBorderColor!)
+              : BorderSide.none,
           borderRadius: BorderRadius.circular(defaultBorderRadius),
         ),
       ),
@@ -41,7 +43,6 @@ class CustomButton extends StatelessWidget {
         style: TextStyle(
           color: buttonTextColor ?? AppColors.white,
           fontSize: MediaQuery.textScalerOf(context).scale(16.0),
-          fontFamily: 'Poppins',
           fontWeight: FontWeight.bold,
         ),
       ),
