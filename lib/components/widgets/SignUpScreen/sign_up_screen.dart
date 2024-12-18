@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import '../CustomButton/custom_button.dart';
@@ -12,14 +14,66 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  int _selectedProfession = 1; // Default to Student
+  int _selectedProfession = 1;
   bool _isTermsChecked = false;
+
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+
+  Future<void> _createAccount() async {
+    if (!_isTermsChecked) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please agree to terms & conditions')),
+      );
+      return;
+    }
+
+    final Map<String, dynamic> requestBody = {
+      'username': _usernameController.text,
+      'email': _emailController.text,
+      'password': _passwordController.text,
+      'role': _selectedProfession == 1 ? 'student' : 'teacher',
+      'name': _nameController.text,
+    };
+
+    const String apiUrl = 'http://10.0.2.2:8080/signup';
+
+    try {
+      final response = await http.post(
+        Uri.parse(apiUrl),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Account created successfully!')),
+        );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${response.body}')),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Exception: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    MediaQueryData mediaQuery = MediaQuery.of(context);
-    double screenWidth = mediaQuery.size.width;
-    double screenHeight = mediaQuery.size.height;
+    final size = MediaQuery.of(context).size;
+    final screenWidth = size.width;
+    final screenHeight = size.height;
 
     return Scaffold(
       backgroundColor: AppColors.white,
@@ -27,44 +81,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
         builder: (context, constraints) {
           final isSmallScreen = constraints.maxHeight < 600;
 
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Top spacing or logo section
-                if (!isSmallScreen)
-                  SizedBox(height: constraints.maxHeight * 0.1),
-                if (isSmallScreen) const Spacer(),
-                // Title
-                Text(
-                  'Sign Up',
-                  style: TextStyle(
-                    color: AppColors.homeScreenHeadingColor,
-                    fontSize: screenWidth * 0.08,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(height: screenHeight * 0.02),
-                Text(
-                  'Enter your details below & free sign up',
-                  style: TextStyle(
-                    color: AppColors.classroomSecondaryColor,
-                    fontSize: screenWidth * 0.045,
-                  ),
-                ),
-                SizedBox(height: screenHeight * 0.04),
-                // Input Fields
-                Expanded(
-                  flex: isSmallScreen ? 8 : 10,
-                  child: ListView(
-                    physics: isSmallScreen
-                        ? const BouncingScrollPhysics()
-                        : const NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.zero,
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: constraints.maxHeight,
+              ),
+              child: IntrinsicHeight(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      if (!isSmallScreen)
+                        SizedBox(height: constraints.maxHeight * 0.1),
+                      if (isSmallScreen) const Spacer(),
+                      Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          color: AppColors.homeScreenHeadingColor,
+                          fontSize: screenWidth * 0.08,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: screenHeight * 0.02),
+                      Text(
+                        'Enter your details below & free sign up',
+                        style: TextStyle(
+                          color: AppColors.classroomSecondaryColor,
+                          fontSize: screenWidth * 0.045,
+                        ),
+                      ),
+                      SizedBox(height: screenHeight * 0.04),
                       TextField(
+                        controller: _usernameController,
                         decoration: InputDecoration(
                           labelText: 'Username',
                           border: OutlineInputBorder(
@@ -74,6 +124,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       TextField(
+                        controller: _nameController,
                         decoration: InputDecoration(
                           labelText: 'Name',
                           border: OutlineInputBorder(
@@ -83,6 +134,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       TextField(
+                        controller: _passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
                           labelText: 'Password',
@@ -93,6 +145,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       TextField(
+                        controller: _emailController,
                         decoration: InputDecoration(
                           labelText: 'Email',
                           border: OutlineInputBorder(
@@ -101,7 +154,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       SizedBox(height: screenHeight * 0.02),
-                      // Profession Selection
                       Text(
                         'Select Profession',
                         style: TextStyle(
@@ -110,7 +162,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: screenHeight * 0.01),
                       Row(
                         children: [
                           Expanded(
@@ -140,13 +191,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ],
                       ),
                       SizedBox(height: screenHeight * 0.02),
-                      CustomButton(
-                        buttonText: 'Create account',
-                        buttonBgColor: AppColors.btnSecondaryColor,
-                        buttonTextColor: AppColors.white,
-                        onPressed: () {},
+                      SizedBox(
+                        width: double.infinity,
+                        child: CustomButton(
+                          buttonText: 'Create account',
+                          buttonBgColor: AppColors.btnSecondaryColor,
+                          buttonTextColor: AppColors.white,
+                          onPressed: _createAccount,
+                        ),
                       ),
-                      if (!isSmallScreen) SizedBox(height: screenHeight * 0.02),
+                      SizedBox(height: screenHeight * 0.02),
                       Row(
                         children: [
                           Checkbox(
@@ -165,39 +219,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                         ],
                       ),
+                      SizedBox(height: screenHeight * 0.16),
+                      Center(
+                        child: Text.rich(
+                          TextSpan(
+                            text: 'Already have an account? ',
+                            style: TextStyle(fontSize: screenWidth * 0.035),
+                            children: [
+                              TextSpan(
+                                text: 'Log in',
+                                style: const TextStyle(
+                                  color: AppColors.btnSecondaryColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const LoginScreen(),
+                                      ),
+                                    );
+                                  },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      if (!isSmallScreen) SizedBox(height: screenHeight * 0.02),
                     ],
                   ),
                 ),
-
-                SizedBox(height: screenHeight * 0.02),
-                Center(
-                  child: Text.rich(
-                    TextSpan(
-                      text: 'Already have an account? ',
-                      style: TextStyle(fontSize: screenWidth * 0.035),
-                      children: [
-                        TextSpan(
-                          text: 'Log in',
-                          style: const TextStyle(
-                            color: AppColors.btnSecondaryColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const LoginScreen(),
-                                ),
-                              );
-                            },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                if (!isSmallScreen) SizedBox(height: screenHeight * 0.02),
-              ],
+              ),
             ),
           );
         },
