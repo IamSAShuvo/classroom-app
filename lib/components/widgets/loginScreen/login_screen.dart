@@ -1,17 +1,94 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:http/http.dart' as http;
 import 'package:classroom_app/components/styles/color/colors.dart';
-import 'package:classroom_app/components/widgets/CustomButton/custom_button.dart';
 import 'package:classroom_app/components/widgets/SignUpScreen/sign_up_screen.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _isLoading = false;
+
+  Future<void> _login() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final response = await http.post(
+        Uri.parse('http://10.0.2.2:8080/login'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'username': _usernameController.text,
+          'password': _passwordController.text,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        if (data['success']) {
+          _showDialog(
+            title: 'Login Successful',
+            message: data['message'] ?? 'Welcome!',
+          );
+        } else {
+          _showDialog(
+            title: 'Login Failed',
+            message: data['message'] ?? 'Invalid credentials.',
+          );
+        }
+      } else {
+        throw Exception('Failed to log in');
+      }
+    } catch (e) {
+      _showDialog(
+        title: 'Error',
+        message: 'An error occurred: $e',
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  void _showDialog({required String title, required String message}) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final screenWidth = size.width;
     final screenHeight = size.height;
+
     return Scaffold(
       backgroundColor: AppColors.white,
       body: LayoutBuilder(
@@ -24,11 +101,9 @@ class LoginScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Top spacing or logo section
                 if (!isSmallScreen)
                   SizedBox(height: constraints.maxHeight * 0.1),
                 if (isSmallScreen) const Spacer(),
-                // Title
                 Text(
                   'Log In',
                   style: TextStyle(
@@ -46,7 +121,6 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: screenHeight * 0.04),
-                // Input Fields
                 Expanded(
                   flex: isSmallScreen ? 8 : 10,
                   child: ListView(
@@ -56,6 +130,7 @@ class LoginScreen extends StatelessWidget {
                     padding: EdgeInsets.zero,
                     children: [
                       TextField(
+                        controller: _usernameController,
                         decoration: InputDecoration(
                           labelText: 'Username',
                           border: OutlineInputBorder(
@@ -65,6 +140,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       TextField(
+                        controller: _passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
                           labelText: 'Password',
@@ -74,7 +150,6 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: screenHeight * 0.02),
-                      // Profession Selection
                       Text(
                         'Forgot PassWord?',
                         style: TextStyle(
@@ -85,11 +160,22 @@ class LoginScreen extends StatelessWidget {
                         textAlign: TextAlign.end,
                       ),
                       SizedBox(height: screenHeight * 0.32),
-                      CustomButton(
-                        buttonText: 'Login',
-                        buttonBgColor: AppColors.btnSecondaryColor,
-                        buttonTextColor: AppColors.white,
-                        onPressed: () {},
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: AppColors.white,
+                          backgroundColor: AppColors.btnSecondaryColor,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        onPressed: _isLoading ? null : _login,
+                        child: _isLoading
+                            ? const CircularProgressIndicator() // Show loading indicator
+                            : const Text(
+                                'Login',
+                                style: TextStyle(fontSize: 18),
+                              ),
                       ),
                       SizedBox(height: screenHeight * 0.02),
                       Center(
@@ -119,7 +205,6 @@ class LoginScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       if (!isSmallScreen) SizedBox(height: screenHeight * 0.02),
                     ],
                   ),
