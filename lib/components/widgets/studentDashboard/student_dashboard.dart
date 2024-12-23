@@ -66,10 +66,17 @@ class _DashboardScreenState extends State<StudentDashboard> {
     }
   }
 
+  // void navigateToSeeAll() {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => SeeAllCourses(courses: courses)),
+  //   );
+  // }
+
   void navigateToSeeAll() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => SeeAllCourses(courses: courses)),
+      MaterialPageRoute(builder: (context) => SeeAllCourses()),
     );
   }
 
