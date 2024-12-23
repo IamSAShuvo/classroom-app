@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:classroom_app/components/widgets/courseCard/course_card.dart';
+import 'package:classroom_app/components/utils/global_authorization_token.dart';
+import 'package:classroom_app/components/widgets/seeAllCourses/see_all_courses.dart';
 
 class StudentDashboard extends StatefulWidget {
   const StudentDashboard({super.key});
@@ -20,15 +23,31 @@ class _DashboardScreenState extends State<StudentDashboard> {
   }
 
   Future<void> fetchCourses() async {
-    const String apiUrl =
-        'http://10.0.2.2:8080/course/all'; // Replace with your API URL
+    const String apiUrl = 'http://10.0.2.2:8080/dashboard';
     try {
-      final response = await http.get(Uri.parse(apiUrl));
+      final response = await http.get(
+        Uri.parse(apiUrl),
+        headers: {
+          'Authorization': 'Bearer $authToken',
+          'Content-Type': 'application/json',
+        },
+      );
+
       if (response.statusCode == 200) {
-        setState(() {
-          courses = jsonDecode(response.body);
-          isLoading = false;
-        });
+        final responseBody = jsonDecode(response.body);
+        if (responseBody['success'] == true) {
+          setState(() {
+            courses = responseBody['data'];
+            isLoading = false;
+          });
+        } else {
+          setState(() {
+            isLoading = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: ${responseBody['message']}')),
+          );
+        }
       } else {
         setState(() {
           isLoading = false;
@@ -42,7 +61,7 @@ class _DashboardScreenState extends State<StudentDashboard> {
         isLoading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Exception: $e')),
+        SnackBar(content: Text('Exception, I am from here: $e')),
       );
     }
   }
@@ -50,7 +69,7 @@ class _DashboardScreenState extends State<StudentDashboard> {
   void navigateToSeeAll() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => SeeAllScreen(courses: courses)),
+      MaterialPageRoute(builder: (context) => SeeAllCourses(courses: courses)),
     );
   }
 
@@ -61,7 +80,7 @@ class _DashboardScreenState extends State<StudentDashboard> {
         title: const Text('Classroom'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.search),
+            icon: const Icon(Icons.person_outline_sharp),
             onPressed: () {},
           ),
         ],
@@ -71,7 +90,6 @@ class _DashboardScreenState extends State<StudentDashboard> {
           : ListView(
               padding: const EdgeInsets.all(16.0),
               children: [
-                if (courses.isNotEmpty) CourseCard(course: courses.first),
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
@@ -82,6 +100,7 @@ class _DashboardScreenState extends State<StudentDashboard> {
                     ),
                   ),
                 ),
+                if (courses.isNotEmpty) CourseCard(course: courses.first),
               ],
             ),
       bottomNavigationBar: BottomNavigationBar(
@@ -101,109 +120,6 @@ class _DashboardScreenState extends State<StudentDashboard> {
         ],
         onTap: (index) {
           // Handle bottom navigation bar actions
-        },
-      ),
-    );
-  }
-}
-
-class CourseCard extends StatelessWidget {
-  final Map<String, dynamic> course;
-
-  const CourseCard({required this.course});
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              course['title'] ?? 'Course Title',
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              course['section'] ?? 'Section A',
-              style: const TextStyle(fontSize: 14, color: Colors.grey),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'Course Teacher - ${course['teacher'] ?? 'Unknown'}',
-              style: const TextStyle(fontSize: 14),
-            ),
-            const Divider(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Book List',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      ...List.generate(
-                        course['books']?.length ?? 0,
-                        (index) => Text(
-                            '${index + 1}. ${course['books'][index]['title']}'),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Author',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      ...List.generate(
-                        course['books']?.length ?? 0,
-                        (index) => Text(course['books'][index]['author']),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const Divider(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  '${course['enrolled']} person Enrolled',
-                  style: const TextStyle(color: Colors.green),
-                ),
-                const Icon(Icons.show_chart, color: Colors.grey),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SeeAllScreen extends StatelessWidget {
-  final List<dynamic> courses;
-
-  const SeeAllScreen({required this.courses});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('All Courses'),
-      ),
-      body: ListView.builder(
-        itemCount: courses.length,
-        itemBuilder: (context, index) {
-          return CourseCard(course: courses[index]);
         },
       ),
     );
