@@ -70,6 +70,7 @@ class _SeeAllCoursesState extends State<SeeAllCourses> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Classroom'),
+        centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.person_outline_sharp),
