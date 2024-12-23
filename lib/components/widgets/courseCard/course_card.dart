@@ -7,6 +7,9 @@ class CourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final screenWidth = size.width;
+    // final screenHeight = size.height;
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -29,7 +32,7 @@ class CourseCard extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              'Course Teacher - ${course['teacher'] ?? 'Unknown'}',
+              'Course Teacher - ${course['teacherName'] ?? 'Unknown'}',
               style: const TextStyle(fontSize: 14),
             ),
             const Divider(height: 20),
@@ -39,25 +42,41 @@ class CourseCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Book List',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      ...List.generate(
-                        course['books']?.length ?? 0,
-                        (index) => Text(
-                            '${index + 1}. ${course['books'][index]['title']}'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Book List',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          const Text(
+                            'Author',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('Author',
-                          style: TextStyle(fontWeight: FontWeight.bold)),
                       ...List.generate(
                         course['books']?.length ?? 0,
-                        (index) => Text(course['books'][index]['author']),
+                        (index) => Row(
+                          children: [
+                            Expanded(
+                              flex: 2,
+                              child: Text(
+                                '${index + 1}. ${course['books'][index]['name']}',
+                                style: TextStyle(fontSize: screenWidth * 0.025),
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Text(
+                                course['books'][index]['author'],
+                                style: const TextStyle(
+                                    fontSize: 14, color: Colors.grey),
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
