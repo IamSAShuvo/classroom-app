@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:classroom_app/components/styles/color/colors.dart';
 import 'package:classroom_app/components/utils/global_authorization_token.dart';
 import 'package:classroom_app/components/widgets/SignUpScreen/sign_up_screen.dart';
+import 'package:classroom_app/components/widgets/teacherDashboard/teacher_dashboard.dart';
 import 'package:classroom_app/components/widgets/studentDashboard/student_dashboard.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -41,9 +42,25 @@ class _LoginScreenState extends State<LoginScreen> {
 
         if (data['success']) {
           authToken = data['data']['accessToken'];
+          // String role = data['data']['role'];
+          // if (role == 'student') {
+          //   Navigator.pushReplacement(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder: (context) => const StudentDashboard(),
+          //     ),
+          //   );
+          // } else {
+          //   _showDialog(
+          //     title: 'Login Failed',
+          //     message: data['message'] ?? 'Invalid credentials.',
+          //   );
+          // }
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const StudentDashboard()),
+            MaterialPageRoute(
+              builder: (context) => const TeacherDashboard(),
+            ),
           );
         } else {
           _showDialog(
