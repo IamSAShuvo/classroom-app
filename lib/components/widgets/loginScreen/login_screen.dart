@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:http/http.dart' as http;
 import 'package:classroom_app/components/styles/color/colors.dart';
+import 'package:classroom_app/components/utils/global_authorization_token.dart';
 import 'package:classroom_app/components/widgets/SignUpScreen/sign_up_screen.dart';
 import 'package:classroom_app/components/widgets/studentDashboard/student_dashboard.dart';
 
@@ -39,6 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
         final data = jsonDecode(response.body);
 
         if (data['success']) {
+          authToken = data['data']['accessToken'];
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => const StudentDashboard()),
