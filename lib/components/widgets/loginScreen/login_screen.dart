@@ -42,26 +42,37 @@ class _LoginScreenState extends State<LoginScreen> {
 
         if (data['success']) {
           authToken = data['data']['accessToken'];
-          // String role = data['data']['role'];
-          // if (role == 'student') {
-          //   Navigator.pushReplacement(
-          //     context,
-          //     MaterialPageRoute(
-          //       builder: (context) => const StudentDashboard(),
-          //     ),
-          //   );
-          // } else {
-          //   _showDialog(
-          //     title: 'Login Failed',
-          //     message: data['message'] ?? 'Invalid credentials.',
-          //   );
-          // }
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const TeacherDashboard(),
-            ),
-          );
+          // String accessMessage = data['message'] ?? '';
+          // if (accessMessage.contains('Teacher')) {
+          String payloadBase64 = authToken!.split('.')[1];
+          String decodedPayload =
+              utf8.decode(base64Url.decode(base64Url.normalize(payloadBase64)));
+
+          Map<String, dynamic> payloadMap = jsonDecode(decodedPayload);
+
+          List<dynamic> roles = payloadMap['roles'] ?? [];
+          String role = roles.isNotEmpty ? roles[0] : '';
+
+          if (role == 'ROLE_TEACHER') {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const TeacherDashboard(),
+              ),
+            );
+          } else if (role == 'ROLE_STUDENT') {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const StudentDashboard(),
+              ),
+            );
+          } else {
+            _showDialog(
+              title: 'Login Failed',
+              message: 'Invalid role detected.',
+            );
+          }
         } else {
           _showDialog(
             title: 'Login Failed',
