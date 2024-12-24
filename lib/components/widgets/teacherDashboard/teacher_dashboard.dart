@@ -9,10 +9,9 @@ class TeacherDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dashboard(
       title: 'Classroom (Teacher)',
-      userRole: 'teacher', // Specify the role
-      showFab: true, // Show floating button for teachers
+      userRole: 'teacher',
+      showFab: true,
       onFabPressed: () {
-        // Navigate to course creation screen
         Navigator.push(
           context,
           MaterialPageRoute(builder: (context) => const CreateCourseScreen()),

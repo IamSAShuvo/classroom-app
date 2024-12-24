@@ -19,7 +19,7 @@ class CourseCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              course['title'] ?? 'Course Title',
+              course['title'] ?? course['courseTitle'] ?? 'Course Title',
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -32,7 +32,7 @@ class CourseCard extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              'Course Teacher - ${course['teacherName'] ?? 'Unknown'}',
+              'Course Teacher - ${course['teacherName'] is String ? course['teacherName'] : (course['teacherName'] is List && course['teacherName'].isNotEmpty ? course['teacherName'][0]['name'] : (course['nameOfTeacher'] ?? 'Unknown'))}',
               style: const TextStyle(fontSize: 14),
             ),
             const Divider(height: 20),
@@ -88,10 +88,35 @@ class CourseCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${course['enrolled']} person Enrolled',
-                  style: const TextStyle(color: Colors.green),
+                  '${course['numberOfStudentsEnrolled'] ?? '0'} person Enrolled',
+                  style: const TextStyle(
+                    color: Color(0xFF6BD65A),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
-                const Icon(Icons.show_chart, color: Colors.grey),
+                course['studentEnrolled'] == true
+                    ? const Icon(
+                        Icons.show_chart,
+                        color: Colors.grey,
+                      )
+                    : ElevatedButton(
+                        onPressed: () {
+                          // Handle enrollment action here
+                          print(
+                              'Enroll button clicked for course: ${course['courseTitle']}');
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: const Text(
+                          'Click to Enroll',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
               ],
             ),
           ],

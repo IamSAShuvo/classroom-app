@@ -8,8 +8,8 @@ class StudentDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dashboard(
       title: 'Classroom (Student)',
-      userRole: 'student', // Specify the role
-      showFab: false, // No floating button for students
+      userRole: 'student',
+      showFab: false,
     );
   }
 }

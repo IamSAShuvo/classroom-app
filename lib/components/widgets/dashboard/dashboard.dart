@@ -7,7 +7,7 @@ import 'package:classroom_app/components/widgets/seeAllCourses/see_all_courses.d
 
 class Dashboard extends StatefulWidget {
   final String title;
-  final String userRole; // "student" or "teacher"
+  final String userRole;
   final bool showFab;
   final VoidCallback? onFabPressed;
 
@@ -26,6 +26,7 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   List<dynamic> courses = [];
   bool isLoading = true;
+  String? teacherName;
 
   @override
   void initState() {
@@ -34,7 +35,7 @@ class _DashboardState extends State<Dashboard> {
   }
 
   Future<void> fetchCourses() async {
-    const String apiUrl = 'http://10.0.2.2:8080/dashboard'; // Same API endpoint
+    const String apiUrl = 'http://10.0.2.2:8080/dashboard';
     try {
       final response = await http.get(
         Uri.parse(apiUrl),
@@ -48,6 +49,7 @@ class _DashboardState extends State<Dashboard> {
         final responseBody = jsonDecode(response.body);
         if (responseBody['success'] == true) {
           setState(() {
+            teacherName = extractTeacherName(responseBody['message']);
             courses = responseBody['data'];
             isLoading = false;
           });
@@ -84,6 +86,15 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
+  String? extractTeacherName(String? message) {
+    if (message == null || !message.contains('Name:')) {
+      return null;
+    }
+
+    final parts = message.split('Name:');
+    return parts.length > 1 ? parts[1].trim() : null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,17 +113,30 @@ class _DashboardState extends State<Dashboard> {
           : ListView(
               padding: const EdgeInsets.all(16.0),
               children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: navigateToSeeAll,
-                    child: const Text(
-                      'See all',
-                      style: TextStyle(color: Colors.blue),
+                if (widget.userRole != 'teacher')
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: navigateToSeeAll,
+                      child: const Text(
+                        'See all',
+                        style: TextStyle(color: Colors.blue),
+                      ),
                     ),
                   ),
-                ),
-                if (courses.isNotEmpty) CourseCard(course: courses.first),
+                if (courses.isNotEmpty)
+                  ...courses.map(
+                    (course) => CourseCard(
+                      course: {
+                        ...course,
+                        'nameOfTeacher': teacherName,
+                      },
+                    ),
+                  )
+                else
+                  const Center(
+                    child: Text('No courses available'),
+                  ),
               ],
             ),
       floatingActionButton: widget.userRole == 'teacher'
