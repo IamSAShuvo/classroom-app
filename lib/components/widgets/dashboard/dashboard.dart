@@ -24,6 +24,7 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<dynamic> courses = [];
   bool isLoading = true;
   String? teacherName;
@@ -101,6 +102,12 @@ class _DashboardState extends State<Dashboard> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(widget.title),
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            _scaffoldKey.currentState?.openDrawer(); // Open drawer
+          },
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.person_outline_sharp),
@@ -108,6 +115,7 @@ class _DashboardState extends State<Dashboard> {
           ),
         ],
       ),
+      drawer: Drawer(),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView(
@@ -142,8 +150,7 @@ class _DashboardState extends State<Dashboard> {
       floatingActionButton: widget.userRole == 'teacher'
           ? FloatingActionButton(
               onPressed: widget.onFabPressed,
-              child:
-                  const Icon(Icons.add), // Add icon for creating a new course
+              child: const Icon(Icons.add),
             )
           : null,
       bottomNavigationBar: BottomNavigationBar(
@@ -161,9 +168,7 @@ class _DashboardState extends State<Dashboard> {
             label: 'People',
           ),
         ],
-        onTap: (index) {
-          // Handle bottom navigation bar actions
-        },
+        onTap: (index) {},
       ),
     );
   }
