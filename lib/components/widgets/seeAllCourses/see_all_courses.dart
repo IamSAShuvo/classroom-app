@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'package:classroom_app/components/widgets/courseCard/course_card.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:classroom_app/components/widgets/courseCard/course_card.dart';
 import 'package:classroom_app/components/utils/global_authorization_token.dart';
+import 'package:classroom_app/components/widgets/studentDashboard/student_dashboard.dart';
 
 class SeeAllCourses extends StatefulWidget {
   const SeeAllCourses({super.key});
@@ -12,6 +13,7 @@ class SeeAllCourses extends StatefulWidget {
 }
 
 class _SeeAllCoursesState extends State<SeeAllCourses> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<dynamic> courses = [];
   bool isLoading = true;
 
@@ -65,12 +67,27 @@ class _SeeAllCoursesState extends State<SeeAllCourses> {
     }
   }
 
+  void navigateToDashboard() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const StudentDashboard(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Classroom'),
         centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {
+            _scaffoldKey.currentState?.openDrawer(); // Open drawer
+          },
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.person_outline_sharp),
@@ -78,13 +95,16 @@ class _SeeAllCoursesState extends State<SeeAllCourses> {
           ),
         ],
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16.0),
-        itemCount: courses.length,
-        itemBuilder: (context, index) {
-          return CourseCard(course: courses[index]);
-        },
-      ),
+      drawer: Drawer(),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              padding: const EdgeInsets.all(16.0),
+              itemCount: courses.length,
+              itemBuilder: (context, index) {
+                return CourseCard(course: courses[index]);
+              },
+            ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(
@@ -101,7 +121,13 @@ class _SeeAllCoursesState extends State<SeeAllCourses> {
           ),
         ],
         onTap: (index) {
-          // Handle bottom navigation bar actions
+          if (index == 0) {
+            navigateToDashboard(); // Recreate dashboard on Home tap
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Tab $index pressed')),
+            );
+          }
         },
       ),
     );
