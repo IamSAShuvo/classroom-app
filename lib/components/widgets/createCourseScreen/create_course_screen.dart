@@ -56,11 +56,34 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
         body: jsonEncode(requestBody),
       );
 
-      if (response.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Course created successfully!')),
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('Success'),
+              content: const Text('Course created successfully!'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    courseNameController.clear();
+                    courseTeacherController.clear();
+                    for (var controllers in bookControllers) {
+                      controllers['bookName']?.clear();
+                      controllers['authorName']?.clear();
+                    }
+                    // setState(() {
+                    //   bookControllers.clear();
+                    // });
+                    // Navigator.pop(context);
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          },
         );
-        Navigator.pop(context);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error: ${response.body}')),
@@ -129,7 +152,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                       const SizedBox(height: 16),
                     ],
                   );
-                }).toList(),
+                }),
               ],
             ),
 
