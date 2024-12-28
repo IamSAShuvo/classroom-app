@@ -24,7 +24,6 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<dynamic> courses = [];
   bool isLoading = true;
   String? teacherName;
@@ -80,6 +79,14 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
+  // Handle manual refresh
+  Future<void> _onRefresh() async {
+    setState(() {
+      isLoading = true;
+    });
+    await fetchCourses();
+  }
+
   void navigateToSeeAll() {
     Navigator.push(
       context,
@@ -102,12 +109,7 @@ class _DashboardState extends State<Dashboard> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(widget.title),
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () {
-            _scaffoldKey.currentState?.openDrawer(); // Open drawer
-          },
-        ),
+        automaticallyImplyLeading: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.person_outline_sharp),
@@ -115,38 +117,70 @@ class _DashboardState extends State<Dashboard> {
           ),
         ],
       ),
-      drawer: Drawer(),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : ListView(
-              padding: const EdgeInsets.all(16.0),
-              children: [
-                if (widget.userRole != 'teacher')
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: navigateToSeeAll,
-                      child: const Text(
-                        'See all',
-                        style: TextStyle(color: Colors.blue),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Drawer Header',
+                style: TextStyle(color: Colors.white, fontSize: 24),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings),
+              title: const Text('Settings'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+      body: RefreshIndicator(
+        onRefresh: _onRefresh,
+        child: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : ListView(
+                padding: const EdgeInsets.all(16.0),
+                children: [
+                  if (widget.userRole != 'teacher')
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: navigateToSeeAll,
+                        child: const Text(
+                          'See all',
+                          style: TextStyle(color: Colors.blue),
+                        ),
                       ),
                     ),
-                  ),
-                if (courses.isNotEmpty)
-                  ...courses.map(
-                    (course) => CourseCard(
-                      course: {
-                        ...course,
-                        'nameOfTeacher': teacherName,
-                      },
+                  if (courses.isNotEmpty)
+                    ...courses.map(
+                      (course) => CourseCard(
+                        course: {
+                          ...course,
+                          'nameOfTeacher': teacherName,
+                        },
+                      ),
+                    )
+                  else
+                    const Center(
+                      child: Text('No courses available'),
                     ),
-                  )
-                else
-                  const Center(
-                    child: Text('No courses available'),
-                  ),
-              ],
-            ),
+                ],
+              ),
+      ),
       floatingActionButton: widget.userRole == 'teacher'
           ? FloatingActionButton(
               onPressed: widget.onFabPressed,

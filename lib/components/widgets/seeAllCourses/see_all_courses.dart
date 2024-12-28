@@ -13,7 +13,6 @@ class SeeAllCourses extends StatefulWidget {
 }
 
 class _SeeAllCoursesState extends State<SeeAllCourses> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<dynamic> courses = [];
   bool isLoading = true;
 
@@ -82,12 +81,7 @@ class _SeeAllCoursesState extends State<SeeAllCourses> {
       appBar: AppBar(
         title: const Text('Classroom'),
         centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.menu),
-          onPressed: () {
-            _scaffoldKey.currentState?.openDrawer(); // Open drawer
-          },
-        ),
+        automaticallyImplyLeading: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.person_outline_sharp),
