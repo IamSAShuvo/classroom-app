@@ -171,40 +171,41 @@ class _CourseCardState extends State<CourseCard> {
                     fontSize: 16,
                   ),
                 ),
-                isEnrolled
-                    ? const Icon(
-                        // Icons.show_chart,
-                        // color: Colors.grey,
-                        Icons.check_circle,
-                        color: Colors.green,
-                      )
-                    : ElevatedButton(
-                        onPressed: () async {
-                          print(
-                              'Enroll button clicked for course: ${widget.course['courseId']}');
-                          if (widget.course['courseId'] != null &&
-                              widget.course['courseId'] is int) {
-                            await enrollStudent(
-                                widget.course['courseId'], context);
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Invalid course ID'),
-                              ),
-                            );
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                if (widget.course.containsKey('studentEnrolled'))
+                  isEnrolled
+                      ? const Icon(
+                          // Icons.show_chart,
+                          // color: Colors.grey,
+                          Icons.check_circle,
+                          color: Colors.green,
+                        )
+                      : ElevatedButton(
+                          onPressed: () async {
+                            print(
+                                'Enroll button clicked for course: ${widget.course['courseId']}');
+                            if (widget.course['courseId'] != null &&
+                                widget.course['courseId'] is int) {
+                              await enrollStudent(
+                                  widget.course['courseId'], context);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Invalid course ID'),
+                                ),
+                              );
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: const Text(
+                            'Click to Enroll',
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
-                        child: const Text(
-                          'Click to Enroll',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
               ],
             ),
           ],
