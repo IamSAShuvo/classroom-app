@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:classroom_app/components/widgets/HomeScreen/home_screen.dart';
 import 'package:classroom_app/components/widgets/courseCard/course_card.dart';
 import 'package:classroom_app/components/utils/global_authorization_token.dart';
 import 'package:classroom_app/components/widgets/seeAllCourses/see_all_courses.dart';
+import 'package:classroom_app/components/widgets/profileScreen/edit_profile_screen.dart';
 
 class Dashboard extends StatefulWidget {
   final String title;
@@ -103,6 +105,17 @@ class _DashboardState extends State<Dashboard> {
     return parts.length > 1 ? parts[1].trim() : null;
   }
 
+  void _logoutUser(BuildContext context) {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => HomeScreen()),
+      (route) => false,
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Logged out successfully')),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,11 +124,53 @@ class _DashboardState extends State<Dashboard> {
         title: Text(widget.title),
         automaticallyImplyLeading: true,
         actions: [
-          IconButton(
+          PopupMenuButton<int>(
             icon: const Icon(Icons.person_outline_sharp),
-            onPressed: () {},
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            onSelected: (value) {
+              if (value == 0) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => EditProfileScreen()),
+                );
+              } else if (value == 1) {
+                _logoutUser(context);
+              }
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 0,
+                child: Row(
+                  children: const [
+                    Icon(Icons.edit, color: Colors.blue),
+                    SizedBox(width: 8),
+                    Text('Edit Profile'),
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                value: 1,
+                child: Row(
+                  children: const [
+                    Icon(Icons.logout, color: Colors.blue),
+                    SizedBox(width: 8),
+                    Text('Logout'),
+                  ],
+                ),
+              ),
+            ],
+            offset: const Offset(0, 40), // Adjust the position of the dropdown
           ),
         ],
+
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.person_outline_sharp),
+        //     onPressed: () {},
+        //   ),
+        // ],
       ),
       drawer: Drawer(
         child: ListView(
