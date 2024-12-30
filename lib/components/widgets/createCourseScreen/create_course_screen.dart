@@ -186,7 +186,7 @@ class _CreateCourseScreenState extends State<CreateCourseScreen> {
                     ),
                   ),
                   child: const Text(
-                    'Click to Enroll',
+                    'Create',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
