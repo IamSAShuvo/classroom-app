@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:classroom_app/components/widgets/HomeScreen/home_screen.dart';
 import 'package:classroom_app/components/widgets/courseCard/course_card.dart';
 import 'package:classroom_app/components/utils/global_authorization_token.dart';
-import 'package:classroom_app/components/widgets/profileScreen/edit_profile_screen.dart';
+import 'package:classroom_app/components/widgets/profileScreen/profile_screen.dart';
 import 'package:classroom_app/components/widgets/studentDashboard/student_dashboard.dart';
 
 class SeeAllCourses extends StatefulWidget {
@@ -105,7 +105,7 @@ class _SeeAllCoursesState extends State<SeeAllCourses> {
               if (value == 0) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => EditProfileScreen()),
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
                 );
               } else if (value == 1) {
                 _logoutUser(context);
@@ -133,7 +133,7 @@ class _SeeAllCoursesState extends State<SeeAllCourses> {
                 ),
               ),
             ],
-            offset: const Offset(0, 40), // Adjust the position of the dropdown
+            offset: const Offset(0, 40),
           ),
         ],
       ),
@@ -164,7 +164,7 @@ class _SeeAllCoursesState extends State<SeeAllCourses> {
         ],
         onTap: (index) {
           if (index == 0) {
-            navigateToDashboard(); // Recreate dashboard on Home tap
+            navigateToDashboard();
           } else {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Tab $index pressed')),

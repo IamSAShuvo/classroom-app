@@ -5,7 +5,7 @@ import 'package:classroom_app/components/widgets/HomeScreen/home_screen.dart';
 import 'package:classroom_app/components/widgets/courseCard/course_card.dart';
 import 'package:classroom_app/components/utils/global_authorization_token.dart';
 import 'package:classroom_app/components/widgets/seeAllCourses/see_all_courses.dart';
-import 'package:classroom_app/components/widgets/profileScreen/edit_profile_screen.dart';
+import 'package:classroom_app/components/widgets/profileScreen/profile_screen.dart';
 
 class Dashboard extends StatefulWidget {
   final String title;
@@ -81,7 +81,6 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
-  // Handle manual refresh
   Future<void> _onRefresh() async {
     setState(() {
       isLoading = true;
@@ -133,7 +132,7 @@ class _DashboardState extends State<Dashboard> {
               if (value == 0) {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => EditProfileScreen()),
+                  MaterialPageRoute(builder: (context) => ProfileScreen()),
                 );
               } else if (value == 1) {
                 _logoutUser(context);
@@ -161,16 +160,9 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
             ],
-            offset: const Offset(0, 40), // Adjust the position of the dropdown
+            offset: const Offset(0, 40),
           ),
         ],
-
-        // actions: [
-        //   IconButton(
-        //     icon: const Icon(Icons.person_outline_sharp),
-        //     onPressed: () {},
-        //   ),
-        // ],
       ),
       drawer: Drawer(
         child: ListView(
