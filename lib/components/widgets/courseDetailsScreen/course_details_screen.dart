@@ -1,9 +1,9 @@
 import 'dart:convert';
-import 'package:classroom_app/components/widgets/studentDashboard/student_dashboard.dart';
-import 'package:classroom_app/components/widgets/teacherDashboard/teacher_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:classroom_app/components/utils/global_authorization_token.dart';
+import 'package:classroom_app/components/widgets/studentDashboard/student_dashboard.dart';
+import 'package:classroom_app/components/widgets/teacherDashboard/teacher_dashboard.dart';
 import 'package:classroom_app/components/widgets/enrolledStudents/enrolled_students_screen.dart';
 
 class CourseDetailsScreen extends StatefulWidget {
@@ -47,7 +47,6 @@ class _CourseDetailsScreenState extends State<CourseDetailsScreen> {
       );
       return;
     }
-// Placeholder icon
     try {
       print('Requesting course details...');
       print('API URL: $url');
