@@ -181,15 +181,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       SizedBox(height: screenHeight * 0.02),
-                      Text(
-                        'Forgot PassWord?',
-                        style: TextStyle(
-                          color: AppColors.homeScreenHeadingColor,
-                          fontSize: screenWidth * 0.045,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.end,
-                      ),
+                      // Text(
+                      //   'Forgot PassWord?',
+                      //   style: TextStyle(
+                      //     color: AppColors.homeScreenHeadingColor,
+                      //     fontSize: screenWidth * 0.045,
+                      //     fontWeight: FontWeight.bold,
+                      //   ),
+                      //   textAlign: TextAlign.end,
+                      // ),
                       SizedBox(height: screenHeight * 0.32),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
@@ -202,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         onPressed: _isLoading ? null : _login,
                         child: _isLoading
-                            ? const CircularProgressIndicator() // Show loading indicator
+                            ? const CircularProgressIndicator()
                             : const Text(
                                 'Login',
                                 style: TextStyle(fontSize: 18),
