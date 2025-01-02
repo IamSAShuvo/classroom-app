@@ -87,11 +87,14 @@ class _CourseCardState extends State<CourseCard> {
 
     return GestureDetector(
       onTap: () {
+        final courseId = widget.course['courseId'] ?? widget.course['id'];
+        final course = widget.course;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => CourseDetailsScreen(
-              course: widget.course,
+              courseId: courseId,
+              course: course,
             ),
           ),
         );
@@ -105,9 +108,7 @@ class _CourseCardState extends State<CourseCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.course['title'] ??
-                    widget.course['courseTitle'] ??
-                    'Course Title',
+                'Course Title: ${widget.course['title'] ?? widget.course['courseTitle'] ?? 'Unknown'}',
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
@@ -172,18 +173,19 @@ class _CourseCardState extends State<CourseCard> {
                   ),
                 ],
               ),
-              const Divider(height: 20),
+              if (numberOfStudentsEnrolled > 0) const Divider(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '$numberOfStudentsEnrolled person${numberOfStudentsEnrolled == 1 ? '' : 's'} Enrolled',
-                    style: const TextStyle(
-                      color: Color(0xFF6BD65A),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                  if (numberOfStudentsEnrolled > 0)
+                    Text(
+                      '$numberOfStudentsEnrolled person${numberOfStudentsEnrolled == 1 ? '' : 's'} Enrolled',
+                      style: const TextStyle(
+                        color: Color(0xFF6BD65A),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
-                  ),
                   if (widget.course.containsKey('studentEnrolled'))
                     isEnrolled
                         ? const Icon(
