@@ -94,7 +94,6 @@ class _SeeAllCoursesState extends State<SeeAllCourses> {
       appBar: AppBar(
         title: const Text('Classroom'),
         centerTitle: true,
-        automaticallyImplyLeading: true,
         actions: [
           PopupMenuButton<int>(
             icon: const Icon(Icons.person_outline_sharp),
@@ -116,9 +115,9 @@ class _SeeAllCoursesState extends State<SeeAllCourses> {
                 value: 0,
                 child: Row(
                   children: const [
-                    Icon(Icons.edit, color: Colors.blue),
+                    Icon(Icons.account_circle_outlined, color: Colors.blue),
                     SizedBox(width: 8),
-                    Text('Edit Profile'),
+                    Text('Profile'),
                   ],
                 ),
               ),
@@ -137,7 +136,6 @@ class _SeeAllCoursesState extends State<SeeAllCourses> {
           ),
         ],
       ),
-      drawer: Drawer(),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView.builder(
@@ -147,30 +145,25 @@ class _SeeAllCoursesState extends State<SeeAllCourses> {
                 return CourseCard(course: courses[index]);
               },
             ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.class_),
-            label: 'Classwork',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'People',
-          ),
-        ],
-        onTap: (index) {
-          if (index == 0) {
-            navigateToDashboard();
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Tab $index pressed')),
-            );
-          }
-        },
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        elevation: 10,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.home, size: 40),
+                  onPressed: () {
+                    navigateToDashboard();
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
