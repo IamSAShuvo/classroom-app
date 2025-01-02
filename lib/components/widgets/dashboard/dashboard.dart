@@ -121,7 +121,7 @@ class _DashboardState extends State<Dashboard> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(widget.title),
-        automaticallyImplyLeading: true,
+        automaticallyImplyLeading: false,
         actions: [
           PopupMenuButton<int>(
             icon: const Icon(Icons.person_outline_sharp),
@@ -143,9 +143,9 @@ class _DashboardState extends State<Dashboard> {
                 value: 0,
                 child: Row(
                   children: const [
-                    Icon(Icons.edit, color: Colors.blue),
+                    Icon(Icons.account_circle_outlined, color: Colors.blue),
                     SizedBox(width: 8),
-                    Text('Edit Profile'),
+                    Text('Profile'),
                   ],
                 ),
               ),
@@ -163,36 +163,6 @@ class _DashboardState extends State<Dashboard> {
             offset: const Offset(0, 40),
           ),
         ],
-      ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'Drawer Header',
-                style: TextStyle(color: Colors.white, fontSize: 24),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Home'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.settings),
-              title: const Text('Settings'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-          ],
-        ),
       ),
       body: RefreshIndicator(
         onRefresh: _onRefresh,
@@ -234,23 +204,6 @@ class _DashboardState extends State<Dashboard> {
               child: const Icon(Icons.add),
             )
           : null,
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.class_),
-            label: 'Classwork',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.people),
-            label: 'People',
-          ),
-        ],
-        onTap: (index) {},
-      ),
     );
   }
 }
