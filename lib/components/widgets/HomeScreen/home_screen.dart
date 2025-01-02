@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
     return AnnotatedRegion(
       value: const SystemUiOverlayStyle(
           statusBarIconBrightness: Brightness.dark,
-          statusBarColor: Colors.black26),
+          statusBarColor: Colors.black12),
       child: Scaffold(
         backgroundColor: AppColors.white,
         body: Padding(
