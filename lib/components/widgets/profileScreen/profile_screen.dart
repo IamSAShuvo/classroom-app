@@ -45,9 +45,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         },
       );
 
-      print('Response status: ${response.statusCode}');
-      print('Response body: ${response.body}');
-
       if (response.statusCode == 200) {
         final responseBody = jsonDecode(response.body);
         setState(() {
@@ -122,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           backgroundImage: profileData!['imageUrl'] != null
                               ? NetworkImage(profileData!['imageUrl'])
                               : const AssetImage(
-                                  'assets/images/profile_avatar.jpeg')),
+                                  'assets/images/profile_avatar.png')),
                       const SizedBox(height: 10),
                       Text(
                         profileData!['name'] ?? 'N/A',
